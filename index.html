@@ -3,9 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eidimizer - Surprise Gift Generator</title>
+    <title>Eidimizer - A Love-Filled Surprise</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Pacifico&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&family=Pacifico&display=swap');
+        
+        :root {
+            --primary: #FF4D6D;
+            --secondary: #FF85A1;
+            --accent: #FFD3DA;
+            --dark: #C9184A;
+            --light: #FFF0F3;
+            --golden: #FFD700;
+        }
         
         * {
             margin: 0;
@@ -14,89 +23,52 @@
         }
         
         body {
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #ff9a9e, #6a0572);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FFCCD5, #FF8FA3);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            overflow: hidden;
-            position: relative;
+            justify-content: center;
+            overflow-x: hidden;
+            color: #590D22;
+            padding: 2rem 1rem;
         }
         
-        .container {
-            width: 90%;
-            max-width: 800px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        header {
             text-align: center;
-            position: relative;
-            z-index: 10;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease-in;
         }
         
         h1 {
             font-family: 'Pacifico', cursive;
-            color: #e74c3c;
-            margin-bottom: 20px;
-            font-size: 3rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: 4rem;
+            color: #C9184A;
+            text-shadow: 3px 3px 0px rgba(255,255,255,0.5);
+            margin-bottom: 0.5rem;
         }
         
-        p {
-            color: #34495e;
-            margin-bottom: 30px;
+        .subtitle {
             font-size: 1.2rem;
+            color: #590D22;
+            opacity: 0.9;
+            font-style: italic;
         }
         
-        .love-message {
-            font-family: 'Pacifico', cursive;
-            color: #e74c3c;
-            margin-top: 10px;
-            font-size: 1.5rem;
-        }
-        
-        .button {
-            background: linear-gradient(to right, #3498db, #2980b9);
-            color: white;
-            border: none;
-            padding: 20px 40px;
-            font-size: 1.5rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            margin: 20px 0;
-        }
-        
-        .button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        }
-        
-        .button:active {
-            transform: translateY(0);
-        }
-        
-        .result {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #e74c3c;
-            margin: 30px 0;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: rgba(255, 255, 255, 0.7);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            display: none;
-        }
-        
-        .meaning {
-            font-size: 1.2rem;
-            color: #8e44ad;
-            margin-top: 10px;
-            display: none;
+        .container {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(201, 24, 74, 0.2);
+            text-align: center;
+            overflow: hidden;
+            z-index: 1;
+            backdrop-filter: blur(5px);
+            border: 2px dashed var(--primary);
         }
         
         .decoration {
@@ -105,252 +77,463 @@
             height: 100%;
             top: 0;
             left: 0;
-            z-index: 1;
-            pointer-events: none;
+            z-index: -1;
+            opacity: 0.15;
+            background-image: 
+                radial-gradient(circle at 10% 20%, var(--primary) 10px, transparent 10px),
+                radial-gradient(circle at 90% 30%, var(--secondary) 15px, transparent 15px),
+                radial-gradient(circle at 20% 80%, var(--accent) 12px, transparent 12px),
+                radial-gradient(circle at 80% 70%, var(--primary) 8px, transparent 8px);
+            background-size: 200px 200px;
         }
         
-        .moon {
+        .love-icon {
             position: absolute;
-            top: 50px;
-            right: 50px;
-            width: 100px;
-            height: 100px;
-            background-color: #FFD700;
+            width: 50px;
+            height: 50px;
+            opacity: 0.7;
+            z-index: -1;
+        }
+        
+        .love-icon.top-left {
+            top: 20px;
+            left: 20px;
+        }
+        
+        .love-icon.top-right {
+            top: 20px;
+            right: 20px;
+            transform: rotate(15deg);
+        }
+        
+        .love-icon.bottom-left {
+            bottom: 20px;
+            left: 20px;
+            transform: rotate(-15deg);
+        }
+        
+        .love-icon.bottom-right {
+            bottom: 20px;
+            right: 20px;
+            transform: rotate(30deg);
+        }
+        
+        .btn-container {
+            position: relative;
+            margin: 3rem auto;
+            width: 200px;
+            height: 200px;
+        }
+        
+        .balloon-heart {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            transition: transform 0.3s;
+            z-index: 2;
+            filter: drop-shadow(0 10px 20px rgba(201, 24, 74, 0.4));
+        }
+        
+        .balloon-heart:hover {
+            transform: translateY(-10px);
+        }
+        
+        .heart-btn-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-5deg);
+            width: 80%;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            pointer-events: none;
+            line-height: 1.3;
+            z-index: 3;
+        }
+        
+        .shine {
+            position: absolute;
+            top: 20%;
+            left: 20%;
+            width: 15px;
+            height: 15px;
+            background-color: rgba(255,255,255,0.8);
             border-radius: 50%;
-            box-shadow: 0 0 30px #FFD700;
+            filter: blur(2px);
+        }
+        
+        .shine.small {
+            top: 30%;
+            left: 25%;
+            width: 10px;
+            height: 10px;
+        }
+        
+        .result {
+            margin-top: 2rem;
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--dark);
+            padding: 1rem;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        
+        .result.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .follow-text {
+            margin-top: 1rem;
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: var(--dark);
+            animation: pulse-text 2s infinite;
+            opacity: 0;
+            transition: opacity 0.5s 0.3s;
+        }
+        
+        .follow-text.show {
+            opacity: 1;
+        }
+        
+        .for-princess {
+            margin-top: 1.5rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            color: var(--dark);
+            opacity: 0;
+            transition: opacity 0.5s 0.1s;
+        }
+        
+        .for-princess.show {
+            opacity: 1;
+        }
+        
+        .special-note {
+            position: relative;
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background-color: rgba(255, 77, 109, 0.1);
+            border: 1px dashed var(--primary);
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.1rem;
+            opacity: 0;
+            transition: opacity 0.5s 0.5s;
+        }
+        
+        .special-note.show {
+            opacity: 0.9;
+        }
+        
+        .hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 10;
         }
         
         .heart {
             position: absolute;
-            width: 30px;
-            height: 30px;
-            background-color: #e74c3c;
-            transform: rotate(45deg);
-            box-shadow: 0 0 15px rgba(231, 76, 60, 0.7);
-        }
-        
-        .heart:before, .heart:after {
-            content: '';
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background-color: #e74c3c;
-            border-radius: 50%;
-        }
-        
-        .heart:before {
-            top: -15px;
-            left: 0;
-        }
-        
-        .heart:after {
-            top: 0;
-            left: -15px;
-        }
-        
-        .star {
-            position: absolute;
-            background-color: rgba(255, 255, 255, 0.8);
-            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-        }
-        
-        .lantern {
-            position: absolute;
-            width: 40px;
-            height: 60px;
-            background-color: #e74c3c;
-            border-radius: 5px;
-            box-shadow: 0 0 15px rgba(231, 76, 60, 0.7);
-        }
-        
-        .lantern:before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: 15px;
-            width: 10px;
-            height: 10px;
-            background-color: #f39c12;
-            border-radius: 50%;
-        }
-        
-        .confetti {
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            background-color: #f1c40f;
+            font-size: 20px;
             opacity: 0;
         }
         
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-            100% { transform: translateY(0) rotate(360deg); }
+        .burst {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
         }
         
-        @keyframes heartbeat {
-            0% { transform: scale(1) rotate(45deg); }
-            25% { transform: scale(1.1) rotate(45deg); }
-            50% { transform: scale(1) rotate(45deg); }
-            75% { transform: scale(1.1) rotate(45deg); }
-            100% { transform: scale(1) rotate(45deg); }
-        }
-        
-        @keyframes twinkle {
-            0% { opacity: 0.2; }
-            50% { opacity: 1; }
-            100% { opacity: 0.2; }
-        }
-        
-        @keyframes confettiFall {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(calc(100vh + 100px)) rotate(360deg); opacity: 0; }
+        .burst-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--primary);
         }
         
         .footer {
-            margin-top: 30px;
-            color: #7f8c8d;
+            margin-top: 2rem;
+            text-align: center;
             font-size: 0.9rem;
+            color: #590D22;
+            opacity: 0.8;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* Keyframes */
+        @keyframes pulse-text {
+            0% {
+                transform: scale(1);
+                text-shadow: 0 0 5px rgba(255,255,255,0.5);
+            }
+            50% {
+                transform: scale(1.05);
+                text-shadow: 0 0 15px rgba(255,255,255,0.8);
+            }
+            100% {
+                transform: scale(1);
+                text-shadow: 0 0 5px rgba(255,255,255,0.5);
+            }
+        }
+        
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes burstParticle {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Media Queries */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            
+            .btn-container {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .heart-btn-text {
+                font-size: 1.2rem;
+            }
+            
+            .result {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="decoration">
-        <div class="moon"></div>
-    </div>
+    <header>
+        <h1>Eidimizer</h1>
+        <p class="subtitle">A love-filled surprise awaits your touch</p>
+    </header>
     
     <div class="container">
-        <h1>Eidimizer</h1>
-        <p>Let the stars of Eid reveal a magical surprise just for you!</p>
-        <button class="button" id="eidiButton">Unwrap Your Celestial Gift</button>
-        <div class="result" id="result"></div>
-        <div class="meaning" id="meaning"></div>
-        <div class="love-message">Love you ❤️💖✨</div>
-        <div class="footer">
-            Eid Mubarak! May this celebration bring love, happiness, and beautiful moments to cherish forever.
+        <div class="decoration"></div>
+        
+        <!-- Love icons -->
+        <svg class="love-icon top-left" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#FF4D6D" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" />
+        </svg>
+        
+        <svg class="love-icon top-right" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#FF85A1" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" />
+        </svg>
+        
+        <svg class="love-icon bottom-left" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#C9184A" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" />
+        </svg>
+        
+        <svg class="love-icon bottom-right" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#FF85A1" d="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" />
+        </svg>
+        
+        <div class="btn-container">
+            <div class="heart-btn-text">Smash to Unveil your Celestial Gift</div>
+            <svg class="balloon-heart" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Heart balloon -->
+                <path fill="#FF0A54" d="M100,30 C60,10 0,30 0,90 C0,150 50,180 100,190 C150,180 200,150 200,90 C200,30 140,10 100,30 Z" />
+                <!-- String -->
+                <path fill="none" stroke="#888" stroke-width="2" stroke-dasharray="5,3" d="M100,190 Q105,195 103,198 Q100,203 97,195" />
+                <!-- Balloon tie -->
+                <path fill="#CC0A44" d="M90,190 Q100,185 110,190 Q105,200 95,200 Q90,200 90,190" />
+                <!-- Shine -->
+                <ellipse class="shine" cx="40" cy="60" rx="15" ry="10" fill="rgba(255,255,255,0.5)" transform="rotate(-20 40 60)" />
+                <ellipse class="shine small" cx="60" cy="40" rx="10" ry="5" fill="rgba(255,255,255,0.5)" transform="rotate(-20 60 40)" />
+            </svg>
         </div>
+        
+        <div class="result" id="result"></div>
+        <div class="follow-text" id="enjoyText">Enjoy!❤️💖✨</div>
+        <div class="for-princess" id="princessText">Just a small gift for my Cute Little Princess❤️😙</div>
+        
+        <div class="special-note" id="specialNote"></div>
     </div>
+    
+    <div class="hearts" id="hearts"></div>
+    <div class="burst" id="burst"></div>
+    
+    <div class="footer">Made with love, especially for you this Eid</div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const button = document.getElementById('eidiButton');
-            const result = document.getElementById('result');
-            const meaning = document.getElementById('meaning');
-            const decoration = document.querySelector('.decoration');
-            
-            // Special numbers with love meanings (all under 500)
             const specialNumbers = {
-                143: "I Love You (1 letter, 4 letters, 3 letters)",
-                182: "I Love You (Number of days in half a year - half of forever)",
+                143: "I Love You (1-I, 4-Love, 3-You)",
+                246: "Always and Forever (24/6 - 24 hours, 6 days a week)",
                 224: "Forever Together (2-To, 2-To, 4-Forever)",
-                248: "Forever Yours (2-To, 4-For, 8-Infinity/Forever)",
-                231: "I Love You Too (2-Letters in I, 3-Letters in Too, 1-Letter in U)",
-                263: "In Love With You (2-Letters in In, 6-Letters in With, 3-Letters in You)",
-                321: "Forever and always (3-Forever, 2-To, 1-You)",
-                420: "Always and Forever (4-Always, 20-Forever)",
-                459: "Forever Mine (4-For, 5-Ever, 9-Mine)",
-                246: "I Love You Always (2-I, 4-Love, 6-Always)",
-                168: "Forever love (1-One, 6-Six, 8-Eight → 168 hours in a week, endless love)",
-                369: "Forever Yours (3 letters in You, 6 letters in Forever, 9=infinity symbol)",
-                499: "Forever Yours (4 letters in Ever, 9=infinity symbol, 9=infinity symbol)",
-                444: "All My Love (4 letters in All, 4 letters in Love, 4=harmony)",
-                222: "Forever Together (2 letters in To, 2 letters in Be, 2 letters in As)",
-                333: "Always Love You (3 words, 3 syllables, 3=completeness)",
-                143: "I Love You (1 letter in I, 4 letters in Love, 3 letters in You)"
+                220: "My One and Only Love (2 + 2 = 0)",
+                222: "Triple Blessings of Love",
+                155: "One Heart, Five Senses, Forever",
+                133: "Always and Forever (1 person, 3 words, 3 words)",
+                214: "Forever Together (2/14 - Valentine's Day)",
+                189: "I Will Always Love You",
+                177: "Togetherness Forever",
+                200: "Perfect Balance of Love",
+                248: "Forever and Always Together",
+                192: "Always Be Mine",
+                256: "Every Moment With You Counts",
+                170: "I Only Need You (1-I, 7-Only, 0-Need You)",
+                183: "I Want You (1-I, 8-Want, 3-You)",
+                169: "I Only Love You (1-I, A-6-Only, 9-Love You)"
             };
             
-            // Create stars
-            for (let i = 0; i < 30; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
-                star.style.width = `${Math.random() * 20 + 10}px`;
-                star.style.height = `${Math.random() * 20 + 10}px`;
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.top = `${Math.random() * 100}%`;
-                star.style.animation = `twinkle ${Math.random() * 3 + 2}s infinite`;
-                decoration.appendChild(star);
-            }
+            const specialKeys = Object.keys(specialNumbers).map(Number);
             
-            // Create hearts
-            for (let i = 0; i < 12; i++) {
+            const balloonHeart = document.querySelector('.balloon-heart');
+            const resultDiv = document.querySelector('#result');
+            const specialNoteDiv = document.querySelector('#specialNote');
+            const heartsContainer = document.querySelector('#hearts');
+            const burstContainer = document.querySelector('#burst');
+            const enjoyText = document.querySelector('#enjoyText');
+            const princessText = document.querySelector('#princessText');
+            
+            // Create floating hearts animation
+            function createHeart() {
                 const heart = document.createElement('div');
                 heart.classList.add('heart');
-                heart.style.left = `${Math.random() * 100}%`;
-                heart.style.top = `${Math.random() * 100}%`;
-                heart.style.animation = `heartbeat ${Math.random() * 2 + 1}s infinite, float ${Math.random() * 5 + 3}s infinite ease-in-out`;
-                heart.style.opacity = `${Math.random() * 0.5 + 0.5}`;
-                heart.style.transform = `rotate(45deg) scale(${Math.random() * 0.5 + 0.5})`;
-                decoration.appendChild(heart);
+                const randomColor = ['#FF4D6D', '#FF85A1', '#FF0A54', '#C9184A'][Math.floor(Math.random() * 4)];
+                heart.innerHTML = ['❤️', '💖', '💗', '💓', '💕'][Math.floor(Math.random() * 5)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+                heart.style.fontSize = Math.random() * 20 + 15 + 'px';
+                heartsContainer.appendChild(heart);
+                
+                heart.style.animation = 'floatHeart 4s ease-in forwards';
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 4000);
             }
             
-            // Create lanterns
-            for (let i = 0; i < 6; i++) {
-                const lantern = document.createElement('div');
-                lantern.classList.add('lantern');
-                lantern.style.left = `${Math.random() * 100}%`;
-                lantern.style.top = `${Math.random() * 100}%`;
-                lantern.style.animation = `float ${Math.random() * 5 + 3}s infinite ease-in-out`;
-                lantern.style.backgroundColor = `hsl(${Math.random() * 60 + 340}, 80%, 60%)`;
-                decoration.appendChild(lantern);
+            // Create burst particles
+            function createBurst(x, y) {
+                const numParticles = 50;
+                
+                for (let i = 0; i < numParticles; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('burst-particle');
+                    
+                    // Random position within balloon
+                    const posX = x;
+                    const posY = y;
+                    
+                    // Random color
+                    const colors = ['#FF4D6D', '#FF85A1', '#FF0A54', '#FFD3DA', '#C9184A', '#FFD700', '#FFF0F3'];
+                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    // Random size
+                    const size = Math.random() * 10 + 5;
+                    
+                    // Random end position
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = Math.random() * 150 + 50;
+                    const endX = Math.cos(angle) * distance;
+                    const endY = Math.sin(angle) * distance;
+                    
+                    particle.style.left = posX + 'px';
+                    particle.style.top = posY + 'px';
+                    particle.style.backgroundColor = randomColor;
+                    particle.style.width = size + 'px';
+                    particle.style.height = size + 'px';
+                    particle.style.setProperty('--tx', endX + 'px');
+                    particle.style.setProperty('--ty', endY + 'px');
+                    particle.style.animation = 'burstParticle 1s forwards';
+                    
+                    burstContainer.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        particle.remove();
+                    }, 1000);
+                }
             }
             
-            // Function to create confetti
-            function createConfetti() {
+            balloonHeart.addEventListener('click', function(e) {
+                // Get position of click for burst effect
+                const rect = balloonHeart.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Hide balloon and text
+                balloonHeart.style.opacity = 0;
+                balloonHeart.style.pointerEvents = 'none';
+                document.querySelector('.heart-btn-text').style.opacity = 0;
+                
+                // Create burst effect
+                createBurst(e.clientX, e.clientY);
+                
+                // Generate a special number only
+                const randomIndex = Math.floor(Math.random() * specialKeys.length);
+                const randomNumber = specialKeys[randomIndex];
+                
+                // Display the result
+                resultDiv.innerHTML = `<strong>Congrats! Your Eidi is ${randomNumber}</strong>`;
+                resultDiv.classList.add('show');
+                enjoyText.classList.add('show');
+                princessText.classList.add('show');
+                
+                // Display the meaning
+                specialNoteDiv.innerHTML = `<strong>${randomNumber} means:</strong> ${specialNumbers[randomNumber]}`;
+                specialNoteDiv.classList.add('show');
+                
+                // Create floating hearts
                 for (let i = 0; i < 50; i++) {
                     setTimeout(() => {
-                        const confetti = document.createElement('div');
-                        confetti.classList.add('confetti');
-                        confetti.style.left = `${Math.random() * 100}%`;
-                        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 80%, 60%)`;
-                        confetti.style.width = `${Math.random() * 10 + 5}px`;
-                        confetti.style.height = `${Math.random() * 10 + 5}px`;
-                        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-                        confetti.style.animation = `confettiFall ${Math.random() * 3 + 2}s forwards`;
-                        
-                        decoration.appendChild(confetti);
-                        
-                        // Remove confetti after animation
-                        setTimeout(() => {
-                            decoration.removeChild(confetti);
-                        }, 5000);
+                        createHeart();
                     }, i * 100);
                 }
-            }
-            
-            // Button click event
-            button.addEventListener('click', function() {
-                // Get all special numbers
-                const specialKeys = Object.keys(specialNumbers).map(Number);
-                
-                // 60% chance to get a special number, 40% chance to get a random number
-                let randomNumber;
-                if (Math.random() < 0.6) {
-                    // Get a random special number
-                    randomNumber = specialKeys[Math.floor(Math.random() * specialKeys.length)];
-                    meaning.textContent = `${randomNumber} means: ${specialNumbers[randomNumber]}`;
-                    meaning.style.display = 'block';
-                } else {
-                    // Generate random number between 100 and 500 (inclusive)
-                    do {
-                        randomNumber = Math.floor(Math.random() * 401) + 100;
-                    } while (specialKeys.includes(randomNumber)); // Make sure it's not a special number
-                    
-                    meaning.style.display = 'none';
-                }
-                
-                // Display result
-                result.textContent = `Congrats! Your Eidi is ${randomNumber}. Enjoy!`;
-                result.style.display = 'block';
-                
-                // Create confetti effect
-                createConfetti();
-                
-                // Add animation to result
-                result.style.animation = 'none';
-                setTimeout(() => {
-                    result.style.animation = 'float 3s infinite ease-in-out';
-                }, 10);
             });
+            
+            // Initial floating hearts
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    createHeart();
+                }, i * 300);
+            }
         });
     </script>
 </body>
