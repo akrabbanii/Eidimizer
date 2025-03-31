@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eidimizer - Surprise Gift Generator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Pacifico&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #6a0572);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+        
+        h1 {
+            font-family: 'Pacifico', cursive;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        p {
+            color: #34495e;
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+        }
+        
+        .love-message {
+            font-family: 'Pacifico', cursive;
+            color: #e74c3c;
+            margin-top: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .button {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin: 20px 0;
+        }
+        
+        .button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .button:active {
+            transform: translateY(0);
+        }
+        
+        .result {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 30px 0;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        .meaning {
+            font-size: 1.2rem;
+            color: #8e44ad;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .moon {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            width: 100px;
+            height: 100px;
+            background-color: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 30px #FFD700;
+        }
+        
+        .heart {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #e74c3c;
+            transform: rotate(45deg);
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.7);
+        }
+        
+        .heart:before, .heart:after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #e74c3c;
+            border-radius: 50%;
+        }
+        
+        .heart:before {
+            top: -15px;
+            left: 0;
+        }
+        
+        .heart:after {
+            top: 0;
+            left: -15px;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+        
+        .lantern {
+            position: absolute;
+            width: 40px;
+            height: 60px;
+            background-color: #e74c3c;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.7);
+        }
+        
+        .lantern:before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            width: 10px;
+            height: 10px;
+            background-color: #f39c12;
+            border-radius: 50%;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: #f1c40f;
+            opacity: 0;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+            100% { transform: translateY(0) rotate(360deg); }
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1) rotate(45deg); }
+            25% { transform: scale(1.1) rotate(45deg); }
+            50% { transform: scale(1) rotate(45deg); }
+            75% { transform: scale(1.1) rotate(45deg); }
+            100% { transform: scale(1) rotate(45deg); }
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+        
+        @keyframes confettiFall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(calc(100vh + 100px)) rotate(360deg); opacity: 0; }
+        }
+        
+        .footer {
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="decoration">
+        <div class="moon"></div>
+    </div>
+    
+    <div class="container">
+        <h1>Eidimizer</h1>
+        <p>Let the stars of Eid reveal a magical surprise just for you!</p>
+        <button class="button" id="eidiButton">Unwrap Your Celestial Gift</button>
+        <div class="result" id="result"></div>
+        <div class="meaning" id="meaning"></div>
+        <div class="love-message">Love you ❤️💖✨</div>
+        <div class="footer">
+            Eid Mubarak! May this celebration bring love, happiness, and beautiful moments to cherish forever.
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const button = document.getElementById('eidiButton');
+            const result = document.getElementById('result');
+            const meaning = document.getElementById('meaning');
+            const decoration = document.querySelector('.decoration');
+            
+            // Special numbers with love meanings (all under 500)
+            const specialNumbers = {
+                143: "I Love You (1 letter, 4 letters, 3 letters)",
+                182: "I Love You (Number of days in half a year - half of forever)",
+                224: "Forever Together (2-To, 2-To, 4-Forever)",
+                248: "Forever Yours (2-To, 4-For, 8-Infinity/Forever)",
+                231: "I Love You Too (2-Letters in I, 3-Letters in Too, 1-Letter in U)",
+                263: "In Love With You (2-Letters in In, 6-Letters in With, 3-Letters in You)",
+                321: "Forever and always (3-Forever, 2-To, 1-You)",
+                420: "Always and Forever (4-Always, 20-Forever)",
+                459: "Forever Mine (4-For, 5-Ever, 9-Mine)",
+                246: "I Love You Always (2-I, 4-Love, 6-Always)",
+                168: "Forever love (1-One, 6-Six, 8-Eight → 168 hours in a week, endless love)",
+                369: "Forever Yours (3 letters in You, 6 letters in Forever, 9=infinity symbol)",
+                499: "Forever Yours (4 letters in Ever, 9=infinity symbol, 9=infinity symbol)",
+                444: "All My Love (4 letters in All, 4 letters in Love, 4=harmony)",
+                222: "Forever Together (2 letters in To, 2 letters in Be, 2 letters in As)",
+                333: "Always Love You (3 words, 3 syllables, 3=completeness)",
+                143: "I Love You (1 letter in I, 4 letters in Love, 3 letters in You)"
+            };
+            
+            // Create stars
+            for (let i = 0; i < 30; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.width = `${Math.random() * 20 + 10}px`;
+                star.style.height = `${Math.random() * 20 + 10}px`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animation = `twinkle ${Math.random() * 3 + 2}s infinite`;
+                decoration.appendChild(star);
+            }
+            
+            // Create hearts
+            for (let i = 0; i < 12; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.top = `${Math.random() * 100}%`;
+                heart.style.animation = `heartbeat ${Math.random() * 2 + 1}s infinite, float ${Math.random() * 5 + 3}s infinite ease-in-out`;
+                heart.style.opacity = `${Math.random() * 0.5 + 0.5}`;
+                heart.style.transform = `rotate(45deg) scale(${Math.random() * 0.5 + 0.5})`;
+                decoration.appendChild(heart);
+            }
+            
+            // Create lanterns
+            for (let i = 0; i < 6; i++) {
+                const lantern = document.createElement('div');
+                lantern.classList.add('lantern');
+                lantern.style.left = `${Math.random() * 100}%`;
+                lantern.style.top = `${Math.random() * 100}%`;
+                lantern.style.animation = `float ${Math.random() * 5 + 3}s infinite ease-in-out`;
+                lantern.style.backgroundColor = `hsl(${Math.random() * 60 + 340}, 80%, 60%)`;
+                decoration.appendChild(lantern);
+            }
+            
+            // Function to create confetti
+            function createConfetti() {
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        const confetti = document.createElement('div');
+                        confetti.classList.add('confetti');
+                        confetti.style.left = `${Math.random() * 100}%`;
+                        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 80%, 60%)`;
+                        confetti.style.width = `${Math.random() * 10 + 5}px`;
+                        confetti.style.height = `${Math.random() * 10 + 5}px`;
+                        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                        confetti.style.animation = `confettiFall ${Math.random() * 3 + 2}s forwards`;
+                        
+                        decoration.appendChild(confetti);
+                        
+                        // Remove confetti after animation
+                        setTimeout(() => {
+                            decoration.removeChild(confetti);
+                        }, 5000);
+                    }, i * 100);
+                }
+            }
+            
+            // Button click event
+            button.addEventListener('click', function() {
+                // Get all special numbers
+                const specialKeys = Object.keys(specialNumbers).map(Number);
+                
+                // 60% chance to get a special number, 40% chance to get a random number
+                let randomNumber;
+                if (Math.random() < 0.6) {
+                    // Get a random special number
+                    randomNumber = specialKeys[Math.floor(Math.random() * specialKeys.length)];
+                    meaning.textContent = `${randomNumber} means: ${specialNumbers[randomNumber]}`;
+                    meaning.style.display = 'block';
+                } else {
+                    // Generate random number between 100 and 500 (inclusive)
+                    do {
+                        randomNumber = Math.floor(Math.random() * 401) + 100;
+                    } while (specialKeys.includes(randomNumber)); // Make sure it's not a special number
+                    
+                    meaning.style.display = 'none';
+                }
+                
+                // Display result
+                result.textContent = `Congrats! Your Eidi is ${randomNumber}. Enjoy!`;
+                result.style.display = 'block';
+                
+                // Create confetti effect
+                createConfetti();
+                
+                // Add animation to result
+                result.style.animation = 'none';
+                setTimeout(() => {
+                    result.style.animation = 'float 3s infinite ease-in-out';
+                }, 10);
+            });
+        });
+    </script>
+</body>
+</html>
